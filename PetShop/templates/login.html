@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="../static/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+  <div>
+
+  </div>
+    <div id ="div-login" class="login" style=" background-color: rgb(232, 169, 194);height:30px">
+
+    </div>
+    <div class="background">
+        <!-- Form container -->
+        <div class="login-form">
+            <!-- Logo -->
+            <div class="logo">
+                <img src="../static/image/header1.png" alt="Logo">
+            </div>
+            <!-- Login fields -->
+            <div class="login-fields">
+                <form action="/login_account" method="POST">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                    <a href="#" class="forgot-password"></a>
+                    <button type="submit" id="">Login</button>
+                    <p class="register">Need an account? <a href="{{ url_for('signup') }}">Register</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

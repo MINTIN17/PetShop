@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="shopping-cart">
+        <div class="px-4 px-lg-0">
+            <div class="pb-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
+                            <!-- Shopping cart table -->
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="border-0 bg-light">
+                                                <div class="p-2 px-3 text-uppercase">Sản Phẩm</div>
+                                            </th>
+                                            <th scope="col" class="border-0 bg-light">
+                                                <div class="py-2 text-uppercase">Đơn Giá</div>
+                                            </th>
+                                            <th scope="col" class="border-0 bg-light">
+                                                <div class="py-2 text-uppercase">Số Lượng</div>
+                                            </th>
+                                            <th scope="col" class="border-0 bg-light">
+                                                <div class="py-2 text-uppercase">Xóa</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in cart_items %}
+                                            <tr>
+                                                <th scope="row">
+                                                    <div class="p-2">
+
+                                                        <img src="{{ item.image }}" alt="" width="70" class="img-fluid rounded shadow-sm">
+
+                                                        <div class="ml-3 d-inline-block align-middle">
+                                                            <h5 class="mb-0"> <a href="#" class="text-dark d-inline-block">{{item.title}}</a></h5><span class="text-muted font-weight-normal font-italic"></span>
+                                                        </div>
+                                                    </div>
+                                                </th>
+                                                <!-- ... -->
+                                                <td class="align-middle"><strong class="price4"> {{ item.price }} ₫</strong></td>
+
+
+                                           <td class="align-middle">
+                                                <a href="#"><button class="btnSub" data-ma-cart="{{ item.maCart }}">-</button></a>
+                                                <strong class="amountValue">{{ item.amount }}</strong>
+                                                <a href="#"><button class="btnAdd" data-ma-cart="{{ item.maCart }}">+</button></a>
+                                            </td>
+
+
+
+
+
+                                                <td class="align-middle"><a href="" class="text-dark">
+                                                        <button type="button" class="btn btn-danger delete-btn" data-ma-cart="{{ item.maCart }}">Delete</button>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- End -->
+                        </div>
+                    </div>
+
+                    <!-- Tính toán tổng tiền -->
+                    <div class="row py-5 p-4 bg-white rounded shadow-m d-flex justify-content-center align-items-center">
+
+                        <div class="col-lg-6">
+                            <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Thành tiền</div>
+
+                            <div class="p-4">
+
+                        <ul class="list-unstyled mb-4" id="contentTotalMoney">
+                                 <li class="d-flex justify-content-between py-3 border-bottom">
+                                      <strong class="text-muted">Tổng tiền hàng</strong>
+                                     <strong id="totalPrice" class="price4">{{ total_price }}₫</strong>
+                                    </li>
+                                    <li class="d-flex justify-content-between py-3 border-bottom">
+                                        <strong class="text-muted">Phí vận chuyển</strong>
+                                        <strong>30.000₫</strong>
+                                    </li>
+
+                                    <li class="d-flex justify-content-between py-3 border-bottom">
+                                        <strong class="text-muted">Tổng thanh toán</strong>
+                                        <h5 class="font-weight-bold price4" id="totalPayment">{{ total_payment }}₫</h5>
+                                    </li>
+                                </ul>
+                        <a href="/dathang" id="paymentButton" class="btn btn-dark rounded-pill py-2 btn-block text-white" style="background-color: #b0171c !important; border: 1px solid #b0171c;">Thanh Toán</a>
+                        </div>
+                        </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        // Bắt sự kiện click vào nút xóa
+          document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                // Lấy mã cart từ thuộc tính data-ma-cart
+                const cartId = event.target.dataset.maCart;
+
+                // Gửi yêu cầu xóa đến máy chủ
+                fetch(`/delete_cart/${cartId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Xóa phần tử cha (tr) của nút đã nhấn
+                        event.target.closest('tr').remove();
+                        // Cập nhật lại thông tin giỏ hàng nếu cần
+                        location.reload();
+                    } else {
+                        // Xử lý lỗi nếu có
+                    }
+                })
+                .catch(error => {
+                    // Xử lý lỗi nếu có
+                    console.error('Error:', error);
+                });
+            });
+        });
+
+$('.btnSub').on('click', function(e) {
+    e.preventDefault();
+    var amountElement = $(this).closest('td').find('.amountValue');
+    var currentAmount = parseInt(amountElement.text());
+    const maCart = event.target.dataset.maCart;
+    if (currentAmount > 0) {
+        var newAmount = currentAmount - 1;
+        amountElement.text(newAmount);
+        updateAmountInBackend(maCart, newAmount); // Gửi yêu cầu cập nhật đến Flask backend
+
+    }
+});
+
+$('.btnAdd').on('click', function(e) {
+    e.preventDefault();
+    var amountElement = $(this).closest('td').find('.amountValue');
+    var currentAmount = parseInt(amountElement.text());
+    var newAmount = currentAmount + 1;
+    amountElement.text(newAmount);
+    const maCart = event.target.dataset.maCart;
+    updateAmountInBackend(maCart,newAmount); // Gửi yêu cầu cập nhật đến Flask backend
+});
+
+function updateAmountInBackend(maCart,newAmount) {
+    $.ajax({
+        url: '/update_amount', // Địa chỉ của route xử lý yêu cầu cập nhật ở Flask backend
+        method: 'POST',
+        contentType: 'application/json',
+         data: JSON.stringify({
+            newAmount: newAmount,
+            maCart: maCart
+        }),
+        success: function(response) {
+               $('#totalPrice').text(formatNumber(response.total_price) + '₫');
+            $('#totalPayment').text(formatNumber(response.total_payment) + '₫');
+        },
+        error: function(xhr, status, error) {
+            // Xử lý lỗi (nếu có)
+        }
+    });
+}
+
+            function formatNumber(number) {
+                return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            }
+
+            // Đối với mỗi phần tử có class là 'price', áp dụng định dạng số
+            document.querySelectorAll('.price4').forEach(function(element) {
+                let price = parseInt(element.textContent); // Lấy số từ nội dung
+                let formattedPrice = formatNumber(price); // Định dạng số
+                element.textContent = formattedPrice + "₫"; // Hiển thị số đã được định dạng
+            });
+    </script>
+
+</body>
+</html>

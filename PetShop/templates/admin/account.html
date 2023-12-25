@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .dialog, #dialog-update{
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left:0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity linear 0.2s;
+        }
+        .dialog:target {
+            visibility: visible;
+            opacity: 1;
+        }
+        .overlay{
+            background-color: rgba(128,128,128, 0.5);
+        }
+        .dialog-body{
+            width: 500px;
+            height: 400px;
+            position: relative;
+            background: #fff;
+        }
+        .dialog-close-btn{
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            text-decoration: none;
+            color: #333;
+        }
+        .dialog-close-btn:hover{
+            background-color: #dc3545;
+        }
+        .add, .update{
+            border: none;
+            border-bottom: 1px solid #000;
+            outline: none;
+        }
+        #table-category {
+          border-collapse: collapse;
+          width: 100%;
+
+          margin-bottom: 35px;
+        }
+        .category {
+          border: 1px solid #dddddd;
+          padding: 8px;
+          font-size: 13px;
+          text-align: center;
+            color: crimson;
+        }
+        .category:hover {
+            background-color: #dddd;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="thucung-content"  class="danhmuc">
+        <p style="font-weight: 600; border-bottom:1px solid #000;">DANH SÁCH TÀI KHOẢN</p>
+
+        <div style="display: flex; padding:20px 10px">
+            <div>
+                <a href="#my-dialog" > <i class="fa-solid fa-plus"></i> Thêm tài khoản</a>
+            </div>
+            <div class="input-group mb-3" style="width: 500px; margin-left: 320px;">
+                <input class="form-control me-2 " id="search" name="keyword" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-danger" id="btn-search" type="submit">Search</button>
+            </div>
+            <div id="my-dialog" class="dialog overlay">
+                <div class="dialog-body">
+                    <div style="width: 100%; height: 40px; background-color: #de8ebe;">
+                        <h5 style="text-align: center; padding-top: 5px;">Thêm tài khoản</h5>
+                        <a  class="dialog-close-btn" href="#" style="text-align: center; font-size: 23px; width: 60px; height: 40px; ">&times; </a>
+                    </div>
+                    <div style=" padding: 10px 20px 20px 20px;">
+                        <table style="text-align: left; width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td style="text-align: right; padding-bottom: 10px;">
+                                        <label>
+                                            <input type="radio" id="admin" name="userType" value="admin"> Admin
+                                        </label>
+
+                                        <label>
+                                            <input type="radio" id="user" name="userType" value="user"> User
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom: 20px;"><label>Tên tài khoản</label></td>
+                                    <td style="padding-bottom: 20px;"><input type="text" id="name-add" name="title" style="width: 300px;" class="update"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom: 20px;"><label>Username</label></td>
+                                    <td style="padding-bottom: 20px;"><input type="text" id="username-add" name="title" style="width: 300px;" class="update"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom: 20px;"><label>Password</label></td>
+                                    <td style="padding-bottom: 20px;"><input type="text" id="password-add" name="title" style="width: 300px;" class="update"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom: 20px;"><label>email</label></td>
+                                    <td style="padding-bottom: 20px;"><input type="text" id="email-add" name="title" style="width: 300px;" class="update"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom: 20px;"><label>Địa chỉ</label></td>
+                                    <td style="padding-bottom: 20px;"><input type="text" id="address-add" name="title" style="width: 300px;" class="update"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-danger" id="add" type="submit" style="margin-top:15px;">  Thêm  </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="dialog-update" class=" overlay">
+                <div class="dialog-body">
+                    <div style="width: 100%; height: 40px; background-color: #de8ebe;">
+                        <h5 style="text-align: center; padding-top: 5px;">Cập nhật tài khoản</h5>
+                        <a id="close-dialog" class="dialog-close-btn" href="#" style="text-align: center; font-size: 23px; width: 60px; height: 40px; ">&times; </a>
+                    </div>
+                    <div style=" padding: 10px 20px 20px 20px;">
+                        <table style="text-align: left; width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: left;">
+                                        <label>ID: </label>
+                                        <label id="id-update"></label>
+                                    </td>
+                                    <td style="text-align: right; padding-bottom: 10px;">
+                                        <label>
+                                            <input type="radio" id="admin-update" name="userType" value="admin"> Admin
+                                        </label>
+
+                                        <label>
+                                            <input type="radio" id="user-update" name="userType" value="user"> User
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom: 20px;"><label>Tên tài khoản</label></td>
+                                    <td style="padding-bottom: 20px;"><input type="text" id="name-update" name="title" style="width: 300px;" class="update"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom: 20px;"><label>Username</label></td>
+                                    <td style="padding-bottom: 20px;"><input type="text" id="username-update" name="title" style="width: 300px;" class="update"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom: 20px;"><label>Password</label></td>
+                                    <td style="padding-bottom: 20px;"><input type="text" id="password-update" name="title" style="width: 300px;" class="update"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom: 20px;"><label>email</label></td>
+                                    <td style="padding-bottom: 20px;"><input type="text" id="email-update" name="title" style="width: 300px;" class="update"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom: 20px;"><label>Địa chỉ</label></td>
+                                    <td style="padding-bottom: 20px;"><input type="text" id="address-update" name="title" style="width: 300px;" class="update"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-danger" id="update" type="submit" style="margin-top:15px;">  Cập nhật  </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div>
+            <table id="table-category">
+                <tbody>
+                    <tr>
+                        <td class="category" id="1">Admin</td>
+                        <td class="category" id="0">User</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="list-product">
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">ID</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Tên</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Username</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Password</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Email</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Address</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Cập nhật</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Xóa</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in listaccount %}
+                <tr>
+                <td>{{p.uID}}</td>
+                <td>{{p.name}}</td>
+                <td>{{p.username}}</td>
+                <td>{{p.password}}</td>
+                <td>{{p.email}}</td>
+                <td>{{p.address}}</td>
+                <td><a href="#" class="btn-update" data-id = "{{p.uID}}"><i class="fa-regular fa-pen-to-square"></i></a></td>
+                <td><a href="#" class="xoa" data-id = "{{p.uID}}" ><i class="fa-regular fa-trash-can"></i></a></td>
+                </tr>
+                {% endfor%}
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <script>
+        $(document).off('click', '.category').on('click', '.category', function(e) {
+            e.preventDefault();
+            var url = "/listaccount";
+            var id = this.id;
+            if (id == 0){
+                url = "/listuser"
+            }
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: { id: id },
+                success: function(response) {
+                    $('.danhmuc').html(response);
+                    sessionStorage.setItem('type_account', id);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error loading content:", status, error);
+                }
+            });
+        });
+
+        $(document).off('click', '.xoa').on('click', '.xoa', function(e) {
+            e.preventDefault();
+            var url = "/delAcc";
+            var id = $(this).data('id');
+            var type_account = sessionStorage.getItem('type_account');
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: { id: id, type_account: type_account },
+                success: function(response) {
+                    $('.danhmuc').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error loading content:", status, error);
+                }
+            });
+        });
+
+        $(document).off('click', '#add').on('click', '#add', function(e) {
+            e.preventDefault();
+            var url = "/addAcc";
+            var dialogUpdateElement = document.getElementById('my-dialog');
+            dialogUpdateElement.style.visibility = 'hidden';
+            dialogUpdateElement.style.opacity = '0';
+            var type_account = sessionStorage.getItem('type_account');
+            var name = $('#name-add').val();
+            var username = $('#username-add').val();
+            var password = $('#password-add').val();
+            var email = $('#email-add').val();
+            var address = $('#address-add').val();
+            var isAdmin = document.getElementById('admin');
+            if(isAdmin.checked){
+                var temp = 1;
+            }
+            else{
+                var temp = 0;
+            }
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: { name: name, username: username, password: password, email: email, address: address, type_account: type_account, temp: temp },
+                success: function(response) {
+                    $('.danhmuc').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error loading content:", status, error);
+                }
+            });
+        });
+
+        $(document).off('click', '.btn-update').on('click', '.btn-update', function(e) {
+            e.preventDefault();
+            var url = "/get_user";
+            var id = $(this).data('id');
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: { id: id },
+                success: function(response) {
+                    var user = response.user;
+                    var dialogUpdateElement = document.getElementById('dialog-update');
+                    dialogUpdateElement.style.visibility = 'visible';
+                    dialogUpdateElement.style.opacity = '1';
+                    $('#id-update').html(id);
+                    var name = document.getElementById('name-update');
+                    var username = document.getElementById('username-update');
+                    var password = document.getElementById('password-update');
+                    var email = document.getElementById('email-update');
+                    var address = document.getElementById('address-update');
+                    if (user.isAdmin = 1){
+                        document.getElementById("admin-update").checked = true;
+                    }
+                    else{
+                        document.getElementById("user-update").checked = true;
+                    }
+                    name.value = user.name;
+                    username.value = user.username;
+                    password.value = user.password;
+                    email.value = user.email;
+                    address.value = user.address;
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error loading content:", status, error);
+                }
+            });
+        });
+
+        document.addEventListener('click', function(event) {
+            if (event.target.id === 'close-dialog') {
+                event.preventDefault();
+                var dialogUpdateElement = document.getElementById('dialog-update');
+                dialogUpdateElement.style.visibility = 'hidden';
+                dialogUpdateElement.style.opacity = '0';
+            }
+        });
+
+        $(document).off('click', '#update').on('click', '#update', function(e) {
+            e.preventDefault();
+            var dialogUpdateElement = document.getElementById('dialog-update');
+            var type_account = sessionStorage.getItem('type_account');
+            dialogUpdateElement.style.visibility = 'hidden';
+            dialogUpdateElement.style.opacity = '0';
+            var url = "/update_acc";
+            var id = document.getElementById("id-update").innerHTML;
+            var name = $('#name-update').val();
+            var isAdmin = $('#admin-update').prop('checked');
+            var username = $('#username-update').val();
+            var password = $('#password-update').val();
+            var email = $('#email-update').val();
+            var address = $('#address-update').val();
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: { id: id, name: name, username: username, password: password, email: email, address: address,
+                        isAdmin: isAdmin, type_account: type_account},
+                success: function(response) {
+                    $('.danhmuc').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error loading content:", status, error);
+                }
+            });
+        });
+
+        $(document).off('click', '#btn-search').on('click', '#btn-search', function(e) {
+            e.preventDefault();
+            var url = "/search_acc";
+            var keyword = document.getElementById('search').value;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: { keyword: keyword},
+                success: function(response) {
+                    $('.danhmuc').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error loading content:", status, error);
+                }
+            });
+        });
+
+    </script>
+
+</body>
+</html>

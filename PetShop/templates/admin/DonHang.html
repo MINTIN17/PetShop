@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="thucung-content"  class="danhmuc">
+        <p style="font-weight: 600; border-bottom:1px solid #000;">DANH SÁCH ĐƠN HÀNG</p>
+
+        <div style="display: flex; padding:20px 10px">
+
+        </div>
+        <div id="list-donhang">
+            <table class="table table-striped">
+            <thead >
+                <tr>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Mã</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Tài khoản mua</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Tổng giá</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Ngày xuất</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Tên người nhận</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">SDT</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Email</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Địa chỉ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in list_donhang %}
+                <tr>
+                <td>{{p.maHD}}</td>
+                <td>{{p.name}}</td>
+                <td class="price3">{{p.tongGia}}</td>
+                <td>{{p.ngayXuat}}</td>
+                <td>{{p.fullName}}</td>
+                <td>{{p.phone}}</td>
+                <td>{{p.email}}</td>
+                <td>{{p.address}}</td>
+                </tr>
+                {% endfor%}
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <script>
+            function formatNumber(number) {
+                return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            }
+
+            // Đối với mỗi phần tử có class là 'price', áp dụng định dạng số
+            document.querySelectorAll('.price3').forEach(function(element) {
+                let price = parseInt(element.textContent); // Lấy số từ nội dung
+                let formattedPrice = formatNumber(price); // Định dạng số
+                element.textContent = formattedPrice + "₫"; // Hiển thị số đã được định dạng
+            });
+    </script>
+
+</body>
+</html>

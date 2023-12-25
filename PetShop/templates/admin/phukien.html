@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .dialog{
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left:0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity linear 0.2s;
+        }
+        .dialog:target {
+            visibility: visible;
+            opacity: 1;
+        }
+        .overlay{
+            background-color: rgba(128,128,128, 0.5);
+        }
+        .dialog-body{
+            max-width: 400px;
+            position: relative;
+            padding: 16px;
+            background: #fff;
+        }
+        .dialog-close-btn{
+            position: absolute;
+            top: 2px;
+            right: 6px;
+            text-decoration: none;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div id="thucung-content"  class="danhmuc">
+        <p style="font-weight: 600; border-bottom:1px solid #000;">DANH MỤC THÚ CƯNG</p>
+
+        <div style="display: flex; padding:20px 10px">
+            <div>
+                <a href="#my-dialog" > <i class="fa-solid fa-plus"></i> Thêm sản phẩm</a>
+            </div>
+            <div id="my-dialog" class="dialog overlay">
+                <div class="dialog-body">
+                    <a class="dialog-close-btn" href="#" style="background-color: red">&times; </a>
+
+                </div>
+            </div>
+            <div style="margin-left: 200px; flex: 1;"> <!-- Thêm flex: 1 để mở rộng ô search -->
+              <form class="d-flex w-100" role="search">
+                <input class="form-control me-3 flex-grow-1" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-danger" type="submit">Search</button>
+              </form>
+            </div>
+          </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col">STT</th>
+                <th scope="col">Tên</th>
+                <th scope="col">Hình ảnh</th>
+                <th scope="col">Giá</th>
+                <th scope="col">Giá khuyến mãi</th>
+                <th scope="col">Hot</th>
+                <th scope="col">New</th>
+                <th scope="col">Cập nhật</th>
+                <th scope="col">Xóa</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in list_product %}
+                <tr>
+                <th scope="row">{{loop.index }}</th>
+                <td>{{p.title}}</td>
+                <td><img src="{{p.image}}"  alt="" style="width: 100px; height: 100px;"></td>
+                <td>{{p.price}}</td>
+                <td>{{p.price - p.discount}}</td>
+                <td>{{p.hot}}</td>
+                <td>{{p.new}}</td>
+                <td><a href="#" class="xoa" data-id = "{{p.id}}" ><i class="fa-regular fa-pen-to-square"></i></a></td>
+                <td><i class="fa-regular fa-trash-can"></i></td>
+                </tr>
+                {% endfor%}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        $('.xoa').click(function(e) {
+        e.preventDefault();
+        var url = "/xoa";
+        var id = $(this).data('id');
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data:{id : id},
+            success: function(response) {
+
+                $('.danhmuc').html(response);
+                console.log(response);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error loading content:", status, error);
+            }
+        });
+    });
+
+
+    </script>
+
+</body>
+</html>

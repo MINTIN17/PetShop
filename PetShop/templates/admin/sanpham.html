@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .dialog, #dialog-update{
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left:0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity linear 0.2s;
+        }
+        .dialog:target {
+            visibility: visible;
+            opacity: 1;
+        }
+        .overlay{
+            background-color: rgba(128,128,128, 0.5);
+        }
+        .dialog-body{
+            width: 500px;
+            height: 535px;
+            position: relative;
+            background: #fff;
+        }
+        .dialog-close-btn{
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            text-decoration: none;
+            color: #333;
+        }
+        .dialog-close-btn:hover{
+            background-color: #dc3545;
+        }
+        .add, .update{
+            border: none;
+            border-bottom: 1px solid #000;
+            outline: none;
+        }
+        #table-category {
+          border-collapse: collapse;
+          width: 100%;
+          margin-top: 0px;
+          margin-bottom: 35px;
+        }
+        .category {
+          cursor: default;
+          border: 1px solid #dddddd;
+          padding: 8px;
+          font-size: 13px;
+          text-align: center;
+          color: crimson;
+          font-weight: 600;
+        }
+        .category:hover {
+            background-color: #dddd;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="thucung-content"  class="danhmuc">
+        <p style="font-weight: 600; border-bottom:1px solid #000;">DANH MỤC THÚ CƯNG</p>
+
+        <div style="display: flex; padding:20px 10px">
+            <div style="width: 200px;">
+                <a href="#my-dialog" > <i class="fa-solid fa-plus"></i> Thêm sản phẩm</a>
+            </div>
+            <div class="input-group mb-3" style="width: 500px; margin-left: 320px;">
+                <input class="form-control me-2 " id="search" name="keyword" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-danger" id="btn-search" type="submit">Search</button>
+            </div>
+            <div id="my-dialog" class="dialog overlay">
+                <div class="dialog-body">
+                    <div style="width: 100%; height: 40px; background-color: #de8ebe;">
+                        <h5 style="text-align: center; padding-top: 5px;">Thêm sản phẩm</h5>
+                        <a  class="dialog-close-btn" href="#" style="text-align: center; font-size: 23px; width: 60px; height: 40px; ">&times; </a>
+                    </div>
+                    <div style=" padding: 10px 20px 20px 20px;">
+                        <table style="text-align: left; width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td style="text-align: right; padding-bottom: 10px;">
+                                        <label for="hot-add" style="padding-left: 30px;">Hot</label>
+                                        <input type="checkbox" id="hot-add" name="hot">
+                                        <label for="new-add" style="padding-left: 30px;">New</label>
+                                        <input type="checkbox" id="new-add" name="new">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom: 20px;"><label>Tên sản phẩm</label></td>
+                                    <td style="padding-bottom: 20px;"><input type="text" id="title-add" name="title" style="width: 300px;" class="update"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom: 30px;"><label for="type-product-add">Loại sản phẩm </label></td>
+                                    <td style="padding-bottom: 30px;">
+                                        <select id="type-product-add" name="type-product">
+                                            <option value="Chó cảnh">CHÓ CẢNH</option>
+                                            <option value="Mèo cảnh">MÈO CẢNH</option>
+                                            <option value="Thức ăn ">THỨC ĂN VÀ THỰC PHẨM DINH DƯỠNG</option>
+                                            <option value="Đồ dùng & Đồ chơi & Phụ kiện">ĐỒ DÙNG & ĐỒ CHƠI & PHỤ KIỆN</option>
+                                            <option value="Vệ sinh & Chăm sóc">VỆ SINH VÀ CHĂM SÓC</option>
+                                            <option value="Chuồng, Nhà, Balo, Quây, Đệm">CHUỒNG, NHÀ, BALO, QUÂY, ĐỆM</option>
+                                            <option value="Thuốc & Thực phẩm chức năng">THUỐC VÀ THỰC PHẨM CHỨC NĂNG</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 50%;">
+                                        <div style="padding-bottom: 15px;">
+                                            <div style="margin-bottom: 10px;">
+                                                <img style="max-width:150px; max-height: 100px; border-radius:1rem"
+                                                 src="{{ url_for('static', filename= 'image/placeholder.png')}}"
+                                                 alt="Image" id="display_image_add" name="image-add">
+                                            </div>
+                                            <button id='upload_button_add'>Chọn file ảnh sản phẩm</button>
+                                            <form action="/" method="POST" enctype="multipart/form-data" class='form'>
+                                                <input type="file" name="file" id="fileinput_add" accept="image/*" style="display:none">
+                                            </form>
+                                        </div>
+                                    </td>
+                                    <td style="padding-bottom: 20px; width:50%; text-align: left; border-left: 1px solid #000;">
+                                        <label for="price-add" style="width: 80px; padding-left: 10px;">Giá</label>
+                                        <input type="text" id="price-add" name="price" class="add" style="width: 100px;">
+                                        <label>VND</label><br><br>
+                                        <label for="discount-add" style="width: 80px; padding-left: 10px;">Giảm giá</label>
+                                        <input type="text" id="discount-add" name="discount" class="add" style="width: 100px;">
+                                        <label>%</label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <th style="width: 15%; padding-top: 30px;"><label for="description-add" style="text-align: left; width: 100%"> Mô tả</label></th>
+                                    <th style="width: 85%; padding-top: 30px;"><textarea id="description-add" name="description" rows="4" cols="50" ></textarea></th>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-danger" id="add" type="submit" style="margin-top:15px;">  Thêm  </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="dialog-update" class=" overlay">
+                <div class="dialog-body">
+                    <div style="width: 100%; height: 40px; background-color: #de8ebe;">
+                        <h5 style="text-align: center; padding-top: 5px;">Cập nhật sản phẩm</h5>
+                        <a id="close-dialog" class="dialog-close-btn" href="#" style="text-align: center; font-size: 23px; width: 60px; height: 40px; ">&times; </a>
+                    </div>
+                    <div style=" padding: 10px 20px 20px 20px;">
+                        <table style="text-align: left; width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: left;">
+                                        <label>ID: </label>
+                                        <label id="id-update"></label>
+                                    </td>
+                                    <td style="text-align: right; padding-bottom: 10px;">
+                                        <label for="hot-update" style="padding-left: 30px;">Hot</label>
+                                        <input type="checkbox" id="hot-update" name="hot">
+                                        <label for="new-update" style="padding-left: 30px;">New</label>
+                                        <input type="checkbox" id="new-update" name="new">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom: 20px;"><label>Tên sản phẩm</label></td>
+                                    <td style="padding-bottom: 20px;"><input type="text" id="title-update" name="title" style="width: 300px;" class="update"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom: 30px;"><label for="type-product-update">Loại sản phẩm </label></td>
+                                    <td style="padding-bottom: 30px;">
+                                        <select id="type-product-update" name="type-product">
+                                            <option value="Chó cảnh">CHÓ CẢNH</option>
+                                            <option value="Mèo cảnh">MÈO CẢNH</option>
+                                            <option value="Thức ăn ">THỨC ĂN VÀ THỰC PHẨM DINH DƯỠNG</option>
+                                            <option value="Đồ dùng & Đồ chơi & Phụ kiện">ĐỒ DÙNG & ĐỒ CHƠI & PHỤ KIỆN</option>
+                                            <option value="Vệ sinh & Chăm sóc">VỆ SINH VÀ CHĂM SÓC</option>
+                                            <option value="Chuồng, Nhà, Balo, Quây, Đệm">CHUỒNG, NHÀ, BALO, QUÂY, ĐỆM</option>
+                                            <option value="Thuốc & Thực phẩm chức năng">THUỐC VÀ THỰC PHẨM CHỨC NĂNG</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 50%;">
+                                        <div style="padding-bottom: 15px;">
+                                            <div style="margin-bottom: 10px;">
+                                                <img style="max-width:150px; max-height: 100px; border-radius:1rem"
+                                                 src="{{ url_for('static', filename= 'image/placeholder.jpg')}}"
+                                                 alt="User Image" id="image-update">
+                                            </div>
+                                            <button id='upload_button_update'>Chọn file ảnh sản phẩm</button>
+                                            <form action="/" method="POST" enctype="multipart/form-data" class='form'>
+                                                <input type="file" name="file" id="fileinput_update" accept="image/*" style="display:none">
+                                            </form>
+                                        </div>
+                                    </td>
+                                    <td style="padding-bottom: 20px; width:50%; text-align: left; border-left: 1px solid #000;">
+                                        <label for="price-update" style="width: 80px; padding-left: 10px;">Giá</label>
+                                        <input type="text" id="price-update" name="price" class="add" style="width: 100px;">
+                                        <label>VND</label><br><br>
+                                        <label for="discount-update" style="width: 80px; padding-left: 10px;">Giảm giá</label>
+                                        <input type="text" id="discount-update" name="discount" class="add" style="width: 100px;">
+                                        <label>%</label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <th style="width: 15%; padding-top: 30px;"><label for="description-update" style="text-align: left; width: 100%"> Mô tả</label></th>
+                                    <th style="width: 85%; padding-top: 30px;"><textarea id="description-update" name="description" rows="4" cols="50" ></textarea></th>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-danger" id="update" type="submit" style="margin-top:15px;">  Cập nhật  </button>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+        <div>
+            <table id="table-category">
+                <tbody>
+                    <tr>
+                        <td class="category" id="0" >TẤT CẢ SẢN PHẨM</td>
+                        <td class="category" id="1">CHÓ CẢNH</td>
+                        <td class="category" id="2">MÈO CẢNH</td>
+                        <td class="category" id="3">THỨC ĂN VÀ THỰC PHẨM DINH DƯỠNG</td>
+                        <td class="category" id="4">ĐỒ DÙNG & ĐỒ CHƠI & PHỤ KIỆN</td>
+                        <td class="category" id="5">VỆ SINH VÀ CHĂM SÓC</td>
+                        <td class="category" id="6">CHUỒNG, NHÀ, BALO, QUÂY, ĐỆM</td>
+                        <td class="category" id="7">THUỐC VÀ THỰC PHẨM CHỨC NĂNG</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="list-product">
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">STT</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Tên</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Hình ảnh</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Giá</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Giá khuyến mãi</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Hot</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">New</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Cập nhật</th>
+                <th scope="col" style="background-color: darkgray; border: 1px solid black;">Xóa</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in list_product %}
+                <tr>
+                <th scope="row">{{loop.index }}</th>
+                <td>{{p.title}}</td>
+                <td><img src="{{p.image}}"  alt="" style="width: 100px; height: 100px;"></td>
+                <td class="">{{ "{:,.0f}".format(p.price)|replace(',', '.') }}đ</td>
+                <td class="">{{ "{:,.0f}".format(p.price - p.price*p.discount/100)|replace(',', '.') }}đ</td>
+                <td>{{p.hot}}</td>
+                <td>{{p.new}}</td>
+                <td><a href="#" class="btn-update" data-id = "{{p.id}}"><i class="fa-regular fa-pen-to-square"></i></a></td>
+                <td><a href="#" class="xoa" data-id = "{{p.id}}" ><i class="fa-regular fa-trash-can"></i></a></td>
+                </tr>
+                {% endfor%}
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <script>
+
+        $(document).off('click', '#btn-search').on('click', '#btn-search', function(e) {
+            e.preventDefault();
+            var url = "/search";
+            var keyword = document.getElementById('search').value;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: { keyword: keyword},
+                success: function(response) {
+                    $('.danhmuc').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error loading content:", status, error);
+                }
+            });
+        });
+
+        $('#table-category td').on('click', function() {
+          $('#table-category td').css('background-color', 'white');
+          $(this).css('background-color', '#dddd');
+        });
+
+        $(document).off('click', '.category').on('click', '.category', function(e) {
+            e.preventDefault();
+            var url = "/type_list_product";
+            var id = this.id;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: { id: id },
+                success: function(response) {
+                    $('.danhmuc').html(response);
+                    sessionStorage.setItem('type_product', id);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error loading content:", status, error);
+                }
+            });
+        });
+
+        $(document).off('click', '.xoa').on('click', '.xoa', function(e) {
+            e.preventDefault();
+            var url = "/xoa";
+            var id = $(this).data('id');
+            var type_product = sessionStorage.getItem('type_product');
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: { id: id, type_product: type_product },
+                success: function(response) {
+                    $('.danhmuc').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error loading content:", status, error);
+                }
+            });
+        });
+
+        $(document).off('click', '.btn-update').on('click', '.btn-update', function(e) {
+            e.preventDefault();
+            var url = "/get_product";
+            var id = $(this).data('id');
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: { id: id },
+                success: function(response) {
+                    var product = response.product;
+                    var dialogUpdateElement = document.getElementById('dialog-update');
+                    dialogUpdateElement.style.visibility = 'visible';
+                    dialogUpdateElement.style.opacity = '1';
+                    $('#id-update').html(id);
+                    var hot = document.getElementById('hot-update');
+                    hot.checked = product.hot;
+                    var neww = document.getElementById('new-update');
+                    neww.checked = product.new;
+                    var title = document.getElementById('title-update');
+                    title.value = product.title;
+                    var price = document.getElementById('price-update');
+                    price.value = product.price;
+                    var discount = document.getElementById('discount-update');
+                    discount.value = product.discount;
+                    var type_product = document.getElementById('type-product-update');
+                    type_product.value = product.cname;
+
+                    var image = document.getElementById('image-update');
+                    image.src = product.image;
+                    var description = document.getElementById('description-update');
+                    description.value = product.description;
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error loading content:", status, error);
+                }
+            });
+        });
+
+        $(document).off('click', '#update').on('click', '#update', function(e) {
+            e.preventDefault();
+            var dialogUpdateElement = document.getElementById('my-dialog');
+            var type_product_update = sessionStorage.getItem('type_product');
+            dialogUpdateElement.style.visibility = 'hidden';
+            dialogUpdateElement.style.opacity = '0';
+            var url = "/update";
+            var id = document.getElementById("id-update").innerHTML;
+            var title = $('#title-update').val();
+            var type_product = document.getElementById("type-product-update");
+            var type_product_value = type_product.value;
+            var isHotChecked = $('#hot-update').prop('checked');
+            var isNewChecked = $('#new-update').prop('checked');
+            var price = $('#price-update').val();
+            var discount = $('#discount-update').val();
+            var image = document.getElementById('image-update').src;
+            var description = document.getElementById('description-update').value;
+            var numtype;
+            switch (type_product_value) {
+              case "Chó cảnh":
+                numtype = 1;
+                break;
+              case "Mèo cảnh":
+                numtype = 2;
+                break;
+              case "Thức ăn ":
+                numtype = 3;
+                break;
+              case "Đồ dùng & Đồ chơi & Phụ kiện":
+                numtype = 4;
+                break;
+              case "Vệ sinh & Chăm sóc":
+                numtype = 5;
+                break;
+              case "Chuồng, Nhà, Balo, Quây, Đệm":
+                numtype = 6;
+                break;
+              case "Thuốc & Thực phẩm chức năng":
+                numtype = 7;
+                break;
+            }
+            console.log(title);
+            console.log(numtype);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {id: id, title: title, isHotChecked: isHotChecked, isNewChecked: isNewChecked,image: image, description: description,
+                price: price, discount: discount,type_product_update: type_product_update, numtype: numtype},
+                success: function(response) {
+                    $('.danhmuc').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error loading content:", status, error);
+                }
+            });
+        });
+
+
+        $(document).off('click', '#add').on('click', '#add', function(e) {
+            e.preventDefault();
+            var dialogUpdateElement = document.getElementById('my-dialog');
+            var type_product_add = sessionStorage.getItem('type_product');
+            dialogUpdateElement.style.visibility = 'hidden';
+            dialogUpdateElement.style.opacity = '0';
+            var url = "/add_product";
+            var title = $('#title-add').val();
+            var type_product = document.getElementById("type-product-add");
+            var type_product_value = type_product.value;
+            var isHotChecked = $('#hot-add').prop('checked');
+            var isNewChecked = $('#new-add').prop('checked');
+            var price = $('#price-add').val();
+            var discount = $('#discount-add').val();
+            var image = document.getElementById('display_image_add').src;
+            var description = document.getElementById('description-add').value;
+            var numtype;
+            switch (type_product_value) {
+              case "Chó cảnh":
+                numtype = 1;
+                break;
+              case "Mèo cảnh":
+                numtype = 2;
+                break;
+              case "Thức ăn ":
+                numtype = 3;
+                break;
+              case "Đồ dùng & Đồ chơi & Phụ kiện":
+                numtype = 4;
+                break;
+              case "Vệ sinh & Chăm sóc":
+                numtype = 5;
+                break;
+              case "Chuồng, Nhà, Balo, Quây, Đệm":
+                numtype = 6;
+                break;
+              case "Thuốc & Thực phẩm chức năng":
+                numtype = 7;
+                break;
+            }
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {title: title, numtype: numtype, isHotChecked: isHotChecked, type_product_add: type_product_add,
+                        isNewChecked: isNewChecked, price: price, discount: discount, image: image, description: description},
+                success: function(response) {
+                    $('.danhmuc').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error loading content:", status, error);
+                }
+            });
+        });
+
+
+        document.addEventListener('click', function(event) {
+            if (event.target.id === 'close-dialog') {
+                event.preventDefault();
+                var dialogUpdateElement = document.getElementById('dialog-update');
+                dialogUpdateElement.style.visibility = 'hidden';
+                dialogUpdateElement.style.opacity = '0';
+            }
+        });
+
+    $(document).off('click', '#upload_button_add, #upload_button_update').on('click', '#upload_button_add, #upload_button_update', function() {
+        if ($(this).is("#upload_button_add")) {
+            $("#fileinput_add").trigger('click');
+        } else if ($(this).is("#upload_button_update")) {
+            $("#fileinput_update").trigger('click');
+        }
+    });
+
+    // Sự kiện lắng nghe khi có sự thay đổi trong input file
+    $(document).off('change', '#fileinput_add').on('change', '#fileinput_add', function () {
+
+        console.log("gg");
+        let reader = new FileReader();
+        reader.onload = function () {
+            let dataURL = reader.result;
+            $("#display_image_add").attr("src", dataURL);
+        };
+        // Lấy file đã chọn
+        let file = $(this).prop("files")[0];
+        reader.readAsDataURL(file);
+    });
+
+    // Sự kiện lắng nghe khi có sự thay đổi trong input file
+    $(document).off('change', '#fileinput_update').on('change', '#fileinput_update', function () {
+
+        console.log("gg");
+        let reader = new FileReader();
+        reader.onload = function () {
+            let dataURL = reader.result;
+            $("#image-update").attr("src", dataURL);
+        };
+        // Lấy file đã chọn
+        let file = $(this).prop("files")[0];
+        reader.readAsDataURL(file);
+    });
+
+
+       function formatNumber(number) {
+                return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            }
+
+            // Đối với mỗi phần tử có class là 'price', áp dụng định dạng số
+        document.querySelectorAll('.price3').forEach(function(element) {
+                let price = parseInt(element.textContent); // Lấy số từ nội dung
+                let formattedPrice = formatNumber(price); // Định dạng số
+                element.textContent = formattedPrice + "₫"; // Hiển thị số đã được định dạng
+            });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>admin</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Bootstrap JS, Popper.js, and jQuery (for Bootstrap) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Trong phần head hoặc sau các phần tử khác -->
+
+  <!-- Trong phần head hoặc sau các phần tử khác -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2" style="background-color: #de8ebe; height: 700px;">
+        <div style="text-align: center; border-bottom:1px solid #fff; ">
+            <div class="square-frame">
+              <img src="../static/image/admin.jpg" alt="Image" class="circular-image">
+              <p style="font-weight: 600; padding:15px 0px;">
+                <a href="#" id="trangchu-link" style=" color: white;  text-decoration: none;">TRANG CHỦ</a>
+            </p>
+            </div>
+        </div>
+        <table class="danhmucquanli">
+            <tr>
+                <td><a href="" id="thucung-content" data-ajax-url="/sanpham">QUẢN LÝ SẢN PHẨM</a>
+                <hr>
+                </td>
+
+            </tr>
+            <tr>
+                <td><a href="" data-ajax-url="/donhang">QUẢN LÝ ĐƠN HÀNG</a>
+                  <hr></td>
+
+            </tr>
+            <tr>
+                <td><a href="" data-ajax-url="/listaccount">QUẢN LÝ TÀI KHOẢN</a>
+                <hr></td>
+
+            </tr>
+
+        </table>
+      </div>
+      <div class="col-md-10">
+            <div class="nav">
+                <nav class="navbar navbar-expand-lg navbar-dark">
+                    <a class="navbar-brand" href="#" style="margin-left: 920px;">Admin Dashboard</a>
+                </nav>
+            </div>
+                 <!-- Main Content -->
+            <div class="thongke row main-content">
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Tổng sản phẩm</h5>
+                            <p class="card-text" id="tongsanpham">{{tongsanpham}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Tổng khách hàng</h5>
+                            <p class="card-text" id="tonguser"> {{tonguser}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Tổng đơn hàng</h5>
+                            <p class="card-text" id="tongdh">{{tongdh}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body" >
+                            <h5 class="card-title">Doanh thu theo ngày</h5>
+                            <p class="card-text price2" id="doanhthungay">{{ "{:,.0f}".format(doanhthungay)|replace(',', '.') }}đ</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Doanh thu theo tháng</h5>
+                            <p class="card-text price2" id="doanhthuthang">{{ "{:,.0f}".format(doanhthuthang)|replace(',', '.') }}đ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+
+<script>
+$(document).ready(function(){
+  var initialContent = $('.main-content').html();
+
+  // Sử dụng selector tổng quát hơn
+  $('td a').click(function(e){
+    e.preventDefault();
+    var url = $(this).data('ajax-url');
+    $.ajax({
+      url: url,
+      type: 'GET',
+      success: function(response) {
+        $('.main-content').html(response);
+      },
+      error: function(xhr, status, error) {
+        console.error("Error loading content:", status, error);
+      }
+    });
+  });
+
+  $('#trangchu-link').click(function(e){
+    e.preventDefault();
+    $('.main-content').html(initialContent);
+    var url = "/tongquan";
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function(response) {
+            console.log(response.tongsanpham);
+            var tongsanpham = document.getElementById("tongsanpham");
+            var tonguser = document.getElementById("tonguser");
+            var tongdh = document.getElementById("tongdh");
+            var doanhthungay = document.getElementById("doanhthungay");
+            var doanhthuthang = document.getElementById("doanhthuthang");
+            tongsanpham.innerHTML = response.tongsanpham;
+            tonguser.innerHTML = response.tonguser;
+            tongdh.innerHTML = response.tongdh;
+            doanhthungay.innerHTML = response.doanhthungay;
+            doanhthuthang.innerHTML = response.doanhthuthang;
+        },
+        error: function(xhr, status, error) {
+            console.error("Error loading content:", status, error);
+        }
+    });
+  });
+});
+
+
+
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Tin Tức - InuNeko Petshop</title>
+    <style>
+        /* Thiết lập CSS cho layout */
+      .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .news-item {
+            width: calc(33.33% - 20px);/* Điều chỉnh chiều rộng theo ý muốn */
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        .news-item img {
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+
+    <!-- Phần nội dung Tin Tức -->
+    <div style="display: flex">
+        <!-- Tin tức 1 -->
+        <div class="news-item">
+            <img src="https://pethouse.com.vn/wp-content/uploads/2023/12/an-dam.webp" alt="Ảnh 1">
+            <h3>Nên cho chó con ăn gì trong giai đoạn sơ sinh</h3>
+            <p>Giai đoạn mới sinh trong 7 ngày đầu
+Trong khoảng thời gian đầu mới sinh các bé cún con sẽ thường bú sữa mẹ bởi sữa mẹ cung cấp rất đủ dưỡng chất như: vitamin, canxi, sắt, kali…Hơn thế nữa chất dinh dưỡng trong sữa mẹ còn giúp cho sức đề kháng của các bé cún được tăng cường. Chính vì vậy chúng ta hãy cung cấp cho chó mẹ những thực phẩm nhiều dưỡng chất và có chế độ hậu sản một cách cẩn thận.
+
+Còn đối với các bé cún phải nuôi bộ hay còn được gọi là nuôi ngoài là những trường hợp chó mẹ không có sữa để cho con bú hoặc mất chó mẹ. Bởi lẽ đó chúng ta nên sử dụng các sản phẩm sữa bột dành cho chó con. Bên cạnh đó chúng ta cần cho nhiệt độ của sữa bằng với nhiệt độ của sữa mẹ cho con bú bằng cách chúng ta chỉ cần nhỏ một vài giọt lên tay cảm nhận độ ấm của sữa vừa phải.
+<br>
+Giai đoạn từ 2 tuần tuổi tới 4 tuần tuần tuổi
+Lúc này các bé đã trở nên cứng cáp hơn chúng ta có thể chuyển sang cho các bé ăn sữa với nước cháo kết hợp với men tiêu hóa để giúp cho quá trình tiêu hóa cũng như trao đổi chất được cải thiện hơn. Đến thời điểm 4 tuần tuổi chúng ta có thể cho các bé cún tập ăn dặm bằng cách nấu cháo loãng kết hợp với rau củ và thịt xay nhuyễn. Và đây cũng chính là giai đoạn thích hợp để cho chó con cai sữa.
+<br>
+Giai đoạn từ 1 tháng tuổi tới 3 tháng tuổi
+Chúng ta có thể cho các bé tập ăn với cơm trắng cùng rau củ và các loại thịt như: thịt bò, thịt lợn, thịt gà…Ngoài ra để bổ sung cho khung xương của các bé cún bằng cách cho các bé ăn kèm: Khoáng chất, canxi, kali…để tránh tình trạng gặm vôi tường do thiếu sắt.
+Bên cạnh đó chúng ta có thể lựa chọn hạt thức ăn khô cho các bé cún ăn mỗi khi chưa kịp chuẩn bị đồ ăn cho các bé. Hạt thức khô chứa rất nhiều dưỡng chất cần thiết và đầy đủ như: vitamin A, vitamin C,…Và chúng ta có thể lựa chọn một vài hãng uy tín sau đây tại Pet House để tin dùng nhé: Royal Canin, ANF, Dog Mania,….Nhưng chúng ta không nên quá lạm dụng việc cho các bé ăn hạt thức khô bởi sự tiện lợi vì chúng có thể khiến cho chó con gặp những chứng bệnh như sau: sỏi thận,….</p>
+        </div>
+
+        <!-- Tin tức 2 -->
+        <div class="news-item">
+            <img src="https://pethouse.com.vn/wp-content/uploads/2023/11/alaska-1247x956.jpg" alt="Ảnh 2">
+            <h3>Top 3 giống chó có khả năng chịu lạnh cực tốt</h3>
+            <p>1. Chó kéo xe Alaska
+Chó Alaska hay còn được gọi với cái tên “Chó kéo xe” đã không còn quá xa lạ với chúng ta. Chúng được biết đến rộng rãi với khả năng chịu lạnh đỉnh của chóp ở trên các vùng núi tuyết siêu buốt giá ở Siberia. Giống chó này sở hữu bộ lông dày tới 2 lớp với những sợi lông siêu dày và siêu dài nhưng vô cùng mềm mại và mượt mà. Chính vì thế mà những con gió lạnh không thể nào chạm tới kẽ chân lông của giống chó này.
+Sinh ra và lớn lên ở vùng núi tuyết cách đây hàng ngàn năm chúng đã tiến hóa để có một lớp lông như “Khiên chắn” có thể chống lại cái lạnh của mùa đông. Bên cạnh đó chúng sở hữu thân hình to lớn với cân nặng có thể lên tới 40kg cho đến 50kg và một cơ thể săn chắc với những khối cơ bắp rắn rỏi. Với những bản năng được tạo hóa ban cho mà chúng có thể sống sót qua những ngày tuyết rơi giá lạnh và giúp cho con người chúng ta có thể băng qua những vùng tuyết trắng xóa với sức kéo siêu khỏe của mình. Sinh ra và lớn lên ở vùng núi tuyết cách đây hàng ngàn năm chúng đã tiến hóa để có một lớp lông như “Khiên chắn” có thể chống lại cái lạnh của mùa đông.
+<br>
+2. Chó Xù Bắc Hà
+Xù Bắc Hà được biết đến là một giống chó đã tồn tại từ xa xưa trên các vùng núi Tây Bắc của Việt Nam chúng ta. Do khí hậu khắc nghiệt có thể xuống tới dưới 0 độ C nên mẹ thiên nhiên đã ban cho giống chó này khả năng chịu lạnh và một bộ lông xù siêu dày để có thể chống chọi với thời tiết rét buốt của vùng Si Ma Cai của tỉnh Lào Cai.
+Bộ lông của giống chó này rất hiếm và độc đáo bởi phần bờm cổ của chó Bắc Hà xù như những chiếc bờm của Sư Tử. Còn phần đuôi với những sợi lông dài và dày bông như những cây bông lau trông đẹp đến mê hoặc. Đây chính là điểm sáng của giống chó này mà hiếm có giống chó nào có được. Bên cạnh đó, với bản năng hoang dã cao chúng còn giúp người dân nơi đi săn bắt những động vật nhỏ để tích trữ cho mùa đông mà không cần phải tốn quá nhiều thời gian nhờ khả năng săn mồi cực đỉnh của mình.
+<br>
+3. Chó Ngao Tây Tạng
+Sư Cẩu Vương hay Bá chủ Tây Tạng là những gì người đời trân trọng giống chó Ngao Tây Tạng. Với thân hình khủng lồ có thể nặng lên tới 100kg cùng bộ lông dày tới mức những con chó sói hoang dã không thể nào làm nguy hại tới chúng. Bộ lông của chúng đẹp và dày đến vĩ đại bởi chúng có thể tồn tại dưới cái lạnh hàng âm độ C.
+Lớp lông ngoài của chó ngao Tây Tạng dài, mềm mại và có kết cấu thô. Lớp lông này giúp bảo vệ cơ thể khỏi gió, bụi và thời tiết lạnh. Lớp lông trong của chúng ngắn, dày và mềm như len. Lớp lông này giúp chó ngao Tây Tạng giữ ấm cơ thể trong mùa đông. Ngoài ra giống chó này còn được biết đến với sự dũng cảm, hiên ngang, bản lĩnh và vô cùng hiếu chiến luôn sẵn sàng bảo vệ chủ nhân và đàn gia súc bất cứ lúc nào. Và truyền thuyết về Sư cẩu Vương cắn chết 37 con sói hung dữ để bảo vệ đàn gia súc mình chính là ca ngợi về giống chó Ngao Tây Tạng. Và đó là Top 3 giống chó có khả năng chịu lạnh cực tốt mà Pet House muốn chia sẻ tới các bạn.</p>
+        </div>
+        <div class="news-item">
+            <img src="https://pethouse.com.vn/wp-content/uploads/2023/12/cho-con.jpg" alt="Ảnh 3">
+            <h3>Cách chăm chó con khi mất mẹ</h3>
+            <p>Khi chó con mới sinh ra nên làm gì?
+Ngay từ khi sinh ra với bản năng sẵn có của chó con sẽ leo tới chó mẹ và bú sữa cũng như để sưởi ấm cơ thể. Bởi thân nhiệt của những bé cún mới sinh ra chưa thể thích nghi với môi trường bên ngoài nên sẽ cảm thấy khá lạnh. Nhưng nếu như không có chó mẹ chúng ta cần phải làm những điều quan trọng sau đây:
+Lau sạch nước ối trên cơ thể của bé cún.
+Cho các bé cún vào trong ổ đệm hoặc thùng bìa cát tông để tránh gió.
+Sử dụng đèn sưởi cách mặt đất khoảng 45cm ( có thể cao hơn tùy từng thời tiết) để giữ ấm cho cơ thể của các bé.
+Sử dụng sữa dành cho cún để cho các bé ăn ngoài bằng cách cho vào bình bú chuyên dụng.
+Do không có nên chúng ta phải nuôi các bé 100% bằng sữa ngoài hoặc có thể nhờ sự giúp đỡ của một bé chó mẹ khác.
+Các bữa ăn cách nhau từ 2 tiếng cho đến 3 tiếng và lượng sữa ban đầu cho ăn khoảng 10ml sau đó tăng dần theo thời gian
+<br>
+Khi chó con được 1 tuần tuổi
+Thời điểm này các bé cún đã trở nên cứng cáp hơn nên lượng sữa nuôi ngoài cũng nên tăng thêm từ 5ml – 10ml. Ngoài ra việc giữ gìn vệ sinh cho các bé cún là một điều hết sức cần thiết bởi không có chó mẹ nên sức đề kháng của chúng rất yếu và dường như rất dễ nhiễm khuẩn hoặc virus. Bởi vậy không gian xung quanh nơi chó con ở là một điều hết sức cần thiết để giúp cho chúng có một sức khỏe tốt hơn.
+Chúng ta có thể chia thành nhiều ô nhỏ và xé vụn giấy cho vào từng ô với mục đích giúp cho chỗ nằm của chó con êm hơn cũng như thấm hút các chất thải dễ dàng hơn. Cách áp dụng này Pet House khuyên mọi người nên áp dụng bởi rất hữu ích và giúp cho chó con luôn được sạch sẽ.
+<br>
+Khi chó con được 2 tuần tuổi – 4 tuần tuổi
+Giai đoạn này chó con bắt đầu đến thời điểm mở mắt nhưng vẫn chưa nhìn được xa chính vì vậy chúng ta có thể sử dụng nước nhỏ mắt sinh lý vệ sinh 2 lần/ngày cho chó con. Khi bước sang tuần thứ 3 và tuần thứ 4 sẽ bắt đầu chập chững biết đi chính vì vậy chúng ta nên cho chúng hoạt động từ 10-15p mỗi lần để thúc đẩy sự phát triển. Kết hợp với đó chúng ta nên cho sưởi nắng 10p mỗi ngày để chó con có thêm vitamin D.
+<br>
+Thời điểm 2 tuần tuổi chó con bắt đầu mở mắt
+Việc cho các bé vận động đồng thời giúp khung xương chắc khỏe hơn, giúp cho hệ tiêu hóa tốt hơn. Tại thời điểm này chúng ta có thể cho các bé chó con tập ăn dặm với cháo, một chút rau củ và thịt xay nhuyễn để có thêm chất. Tránh trường hợp cho ăn no quá mức sẽ dẫn tới tình trạng khó tiêu, lười vận động.</p>
+        </div>
+        <!-- Thêm các khối tin tức khác -->
+        <!-- Bạn có thể sao chép và chỉnh sửa các khối tin tức để thêm nhiều tin tức hơn -->
+    </div>
+
+    <!-- Footer -->
+    <footer>
+     {% include 'footer.html' %}
+
+    </footer>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Thông tin đặt hàng</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+{% include 'header.html' %}
+    <div class="container">
+        <div class="col-lg-6 mx-auto mt-1">
+            <h3 class="text-center mb-4" >THÔNG TIN ĐẶT HÀNG</h3>
+            <form id="orderForm">
+                <div class="form-group">
+                    <label for="fullName">Họ và Tên</label>
+                    <input type="text" class="form-control mb-2" id="fullName" placeholder="Họ và Tên" required>
+
+                    <label for="phone">Số điện thoại</label>
+                    <input type="tel" class="form-control mb-2" id="phone" placeholder="Số điện thoại" required>
+
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control mb-2" id="email" placeholder="Email" required>
+
+                    <label for="address">Địa chỉ giao hàng</label>
+                    <textarea class="form-control mb-3" id="address" rows="3" placeholder="Địa chỉ giao hàng" required></textarea>
+                </div>
+                <button type="submit" onclick="submitOrder()" class="btn btn-primary btn-block" style="background-color: #b0171c !important; border: 1px solid #b0171c;">Xác nhận đặt hàng</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script>
+        function submitOrder() {
+            const fullName = document.getElementById('fullName').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const address = document.getElementById('address').value;
+
+            // Gửi dữ liệu lên server
+            fetch('/process_order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ fullName, phone,email, address })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message); // Hiển thị thông báo từ server
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

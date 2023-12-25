@@ -1,0 +1,52 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+.square-frame {
+    width: 200px;
+    height: 200px;
+    padding: 15px 0px;
+   
+} 
+.circular-image {
+    width: 60%;
+    height: auto;
+    border-radius: 50%; 
+}
+.danhmucquanli{
+    width: 100%;
+    margin-top: 20px;
+}
+.danhmucquanli td{
+    background-color: #de8ebe;
+    padding: 10px 0px;
+}
+.danhmucquanli td i {
+    color:white;
+}
+.danhmucquanli td a{
+    text-decoration: none;
+    font-size: 16px;
+    padding-left: 20px;
+    color: white;
+}
+.danhmucquanli td a:hover{
+    color:#b0171c;
+}
+.nav{
+ 
+    background-color: #d261a4;
+    margin: 0px -12px;
+}
+.thongke{
+
+    justify-content: center;
+
+    text-align: center;
+    margin: 50px 50px ;
+}
+.thongke .card{
+    margin: 15px 5px;
+    
+}

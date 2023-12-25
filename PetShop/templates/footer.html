@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <style>
+        .footer{
+            color: white;
+            background-color: rgb(60, 59, 58);
+            padding: 30px 30px;
+
+        }
+        .footer ul li {
+            list-style-type: none;
+
+        }
+        .footer .mangxh{
+            margin: 10px 10px;
+        }
+        .footer .mangxh a{
+            color: white;
+        }
+        .logofooter{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 150px;
+        }
+        .logofooter img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .footer3 ul li{
+            padding: 16px 16px;
+        }
+        .footer3 ul li a{
+            text-decoration: none;
+            color: white;
+           margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <section class="footer" id="footer">
+        <div class="row">
+            <div class="col-3">
+                <h3>LIÊN LẠC</h3>
+                <ul class="list-unstyled">
+                    <li class="d-flex " >
+                        <i class="fa-solid fa-location-dot me-2" style="padding-top: 6px;"></i>
+                        <p>248 Trần Quý Khách, Hòa Minh, Liên Chiểu, Đà Nẵng</p>
+                    </li>
+                    <li class="d-flex ">
+                        <i class="fa-solid fa-mobile-screen-button me-2" style="padding-top: 6px;"></i>
+                        <p>0815325527</p>
+                    </li>
+                    <li class="d-flex ">
+                        <i class="fa-regular fa-envelope me-2" style="padding-top: 6px;"></i>
+                        <p>nganngan27012003@gmail.com</p>
+                    </li>
+                </ul>
+
+                <h3>FOLLOW</h3>
+                <div class="logolienlac" style="display: flex;">
+                    <div class="mangxh rounded-circle p-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; border: 1px solid rgb(255, 255, 255);">
+                        <a href="https://www.facebook.com/pham.hong.ngann" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+
+                    </div>
+                    <div class="mangxh rounded-circle p-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; border: 1px solid rgb(255, 255, 255);">
+                         <a href="" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                    <div class="mangxh rounded-circle p-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; border: 1px solid rgb(255, 255, 255);">
+                         <a href="" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6" style="border-left: 2px solid #ffffff; ">
+                <div class="logofooter">
+                    <img src="../static/image/Screenshot%202023-11-09%20003543.png" alt="logo">
+                </div>
+                <p style="text-align: center; padding-top:20px">Cảm ơn bạn đã ghé thăm cửa hàng. <br>
+                    Rất hân hạnh được phục vụ!
+                </p>
+                <form class="d-flex w-100" style="padding-top: 30px; padding: 0px 50px">
+                    <input class="form-control me-2 w-100 " type="search" placeholder="Nhận thông tin từ cửa hàng..." aria-label="Search">
+                    <button class="btn btn-danger" type="submit">Gửi</button>
+                  </form>
+
+            </div>
+            <div class="col-3 footer3" style="border-left: 2px solid #ffffff; ">
+                <h3 style="text-align: center;">ĐIỀU HƯỚNG</h3>
+                <ul>
+                    <li><i class="fa-solid fa-arrow-right"></i><a href="{{ url_for('home') }}">Trang chủ</a></li>
+                    <li><i class="fa-solid fa-arrow-right"></i><a href="{{ url_for('shop') }}">Cửa hàng</a></li>
+                    <li><i class="fa-solid fa-arrow-right"></i><a href="/#gioithieu">Giới thiệu</a></li>
+                    <li><i class="fa-solid fa-arrow-right"></i><a href="{{ url_for('tintuc') }}">Tin tức</a></li>
+                    <li><i class="fa-solid fa-arrow-right"></i><a href="/#footer">Liên hệ</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </section>
+</body>
+</html>
